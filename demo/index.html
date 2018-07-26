@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<script src='vendor/three.js/build/three.js'></script>
+<script src="vendor/require.js/require.js"></script>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="Demo of the game: The Making of 'The Aviator': Animating a Basic 3D Scene with Three.js" />
+<meta name="keywords" content="three.js, webgl, tutorial, game, 3d, animation, airplane, web development, javascript" />
+<meta name="author" content="Karim Maaloul for Codrops" />
+<link rel="shortcut icon" href="favicon.ico">
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,700,700italic' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="css/demo.css" />
+<link rel="stylesheet" type="text/css" href="css/game.css" />
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+<script type="text/javascript" src="js/TweenMax.min.js"></script>
+<script type="text/javascript" src="js/three.min.js"></script>
+<script type="text/javascript" src="js/game.js" /></script>
+   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+
+<body>
+
+<div class="header">
+    <h1 style="color: mediumspringgreen"><img src='./konnexlogo.png'></h1>
+    <h2 style="color: mediumspringgreen">Connecting the world in an unforgettable way</h2>
+
+    <div style="padding-left: 90%;text-align: left">
+        <div class="banner-container">
+            <div class="banner">
+                <div class="main_box">
+        <h2 style="
+    color: mediumspringgreen;">Pilot</h2>
+        <form>
+            <button  style="    background: transparent;
+    border-color:mediumspringgreen;
+    color: mediumspringgreen;
+    border-radius: 10%;"   id="changepilota" onclick="changepilot('a')">Batman</button>
+        <p></p>
+
+                    <button  style="    background: transparent;
+    border-color:mediumspringgreen;
+    color: mediumspringgreen;
+    border-radius: 10%;"  onclick="changepilot('b')" >SpiderMan</button>
+            <p></p>
+
+
+                            <button  style="    background: transparent;
+    border-color:mediumspringgreen;
+    color: mediumspringgreen;
+    border-radius: 10%;"  onclick="changepilot('c')">SuperMan</button>
+            <p></p>
+
+                                    <button  style="    background: transparent;
+    border-color:mediumspringgreen;
+    color: mediumspringgreen;
+    border-radius: 10%;"  onclick="changepilot('d')">Hulk</button>
+        </form>
+                </div>
+        </div>
+        </div>
+
+    </div>
+
+
+    <p id="demo"></p>
+    <div class="score" id="score">
+        <div class="score__content" id="level">
+            <div class="score__label">level</div>
+            <div class="score__value score__value--level" id="levelValue">1</div>
+            <svg class="level-circle" id="levelCircle" viewbox="0 0 200 200">
+                <circle id="levelCircleBgr" r="80" cx="100" cy="100" fill="none" stroke="#d1b790" stroke-width="24px" />
+                <circle id="levelCircleStroke" r="80" cx="100" cy="100" fill="none" #f25346 stroke="#68c3c0" stroke-width="14px" stroke-dasharray="502" />
+            </svg>
+        </div>
+        <div class="score__content" id="dist">
+            <div class="score__label">distance</div>
+            <div class="score__value score__value--dist" id="distValue">000</div>
+        </div>
+        <div class="score__content" id="energy">
+            <div class="score__label">Social IQ</div>
+            <div class="score__value score__value--energy" id="energyValue">
+                <div class="energy-bar" id="energyBar"></div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div class="world" id="world"></div>
+
+
+
+<div class="message message--replaya" id="actiona"><button style="border-top-right-radius: 50% ; background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    text-decoration: none;
+     display: inline-block;
+    font-size: 14px;
+    margin: 10px 20px;
+    ">Action A</button></div>
+<div style="padding-left: 85%" class="message message--replaya" id="actionb"><button style="border-top-left-radius: 50% ; background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    text-decoration: none;
+     display: inline-block;
+    font-size: 14px;
+    margin: 10px 20px;
+    ">Action B</button></div>
+
+
+
+<div class="message message--replayc" id="actionc"><button style=" border-bottom-right-radius: 50%; background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    text-decoration: none;
+    display:block;
+    font-size: 14px;
+    margin: 10px 20px;
+    ">Action C</button></div>
+
+<div  style="padding-left: 85%" class="message message--replayd" id="actiond"><button style="border-bottom-left-radius: 50% ; background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    text-decoration: none;
+     display: block;
+    font-size: 14px;
+    margin: 10px 20px;
+    ">Action D</button></div>
+
+<div class="message message--replay" id="replayMessage"><button style="border-top-left-radius: 50% ;border-top-right-radius: 50%; background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 10px 20px;
+    ">Click to Enter</button></div>
+<div style='margin: 0px; background-color: #000000;overflow: hidden;'>
+
+
+<script>
+require([ 'bower_components/threex.planets/package.require.js'
+	], function(){
+	var renderer	= new THREE.WebGLRenderer();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer.domElement );
+
+	var onRenderFcts= [];
+	var scene	= new THREE.Scene();
+	var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000 );
+	camera.position.z = 1.5;
+
+	var light	= new THREE.AmbientLight( 0x888888 )
+	scene.add( light )
+	// var light	= new THREE.DirectionalLight( 'white', 1)
+	// light.position.set(5,5,5)
+	// light.target.position.set( 0, 0, 0 )
+	// scene.add( light )
+
+	var light	= new THREE.DirectionalLight( 0xcccccc, 1 )
+	light.position.set(5,3,5)
+	scene.add( light )
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		add an object and make it move					//
+	//////////////////////////////////////////////////////////////////////////////////	
+
+	var earthMesh	= THREEx.Planets.createEarth()
+	scene.add(earthMesh)
+	onRenderFcts.push(function(delta, now){
+		earthMesh.rotateY( 1/8 * delta )
+	})
+
+	var cloudMesh	= THREEx.Planets.createEarthCloud()
+	scene.add(cloudMesh)
+	onRenderFcts.push(function(delta, now){
+		cloudMesh.rotateY( 1/4 * delta )
+	})
+	
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		add star field							//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	var geometry  = new THREE.SphereGeometry(90, 32, 32)
+	var material  = new THREE.MeshBasicMaterial()
+	material.map   = THREE.ImageUtils.loadTexture('bower_components/threex.planets/examples/images/galaxy_starfield.png')
+	material.side  = THREE.BackSide
+	var mesh  = new THREE.Mesh(geometry, material)
+	scene.add(mesh)
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Camera Controls							//
+	//////////////////////////////////////////////////////////////////////////////////
+	var mouse	= {x : 0, y : 0}
+	document.addEventListener('mousemove', function(event){
+		mouse.x	= (event.clientX / window.innerWidth ) - 0.5
+		mouse.y	= (event.clientY / window.innerHeight) - 0.5
+	}, false)
+	onRenderFcts.push(function(delta, now){
+		camera.position.x += (mouse.x*5 - camera.position.x) * (delta*3)
+		camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
+		camera.lookAt( scene.position )
+	})
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		render the scene						//
+	//////////////////////////////////////////////////////////////////////////////////
+	onRenderFcts.push(function(){
+		renderer.render( scene, camera );		
+	})
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//		loop runner							//
+	//////////////////////////////////////////////////////////////////////////////////
+	var lastTimeMsec= null
+	requestAnimationFrame(function animate(nowMsec){
+		// keep looping
+		requestAnimationFrame( animate );
+		// measure time
+		lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
+		var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
+		lastTimeMsec	= nowMsec
+		// call each update function
+		onRenderFcts.forEach(function(onRenderFct){
+			onRenderFct(deltaMsec/1000, nowMsec/1000)
+		})
+	})
+})
+</script></div>
+</body>
